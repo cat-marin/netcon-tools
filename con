@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+help_func() {
+cat << EOF
+written by cat-marin
+    -h  | --help              : display this help text
+    -bd | --binary-to-decimal : convert binary (\$2)
+EOF
+}
+
+bd() {
+    if [[ $2 = "" ]]; then
+        echo h
+    fi
+}
+
+
