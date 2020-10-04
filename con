@@ -1,17 +1,47 @@
 #!/usr/bin/env bash
-
+str=$2
 help_func() {
 cat << EOF
 written by cat-marin
-    -h  | --help              : display this help text
-    -bd | --binary-to-decimal : convert binary (\$2)
+    -h   | --help                 : display this help text
+    -b   | --binary-to-decimal    : convert binary to decimal (\$2)
+    -d   | --decimal-to-binary    : convert decimal to binary (\$2)
+    -dv4 | --decimal-to-binary-v4 : decimal to binary (IPv4)  (\$2)
 EOF
 }
 
 bd() {
-    if [[ $2 = "" ]]; then
-        echo h
-    fi
+    echo "obase=10;ibase=2;$str" | bc
 }
 
+db() {
+	echo "obase=2;$str" | bc
+}
 
+dbIPv4() {
+	echo $str
+	str=$(echo $str | sed 's/\./ /g' -)
+	for field in $str; do
+		echo "obase=2;$field" | bc
+	done
+}
+
+for arg in "$@"; do
+	case $arg in
+		-h|--help)
+			help_func
+		;;
+		-b)
+			bd
+		;;
+		-d)
+			db
+		;;
+		-dv4)
+			dbIPv4
+		;;
+	esac
+done
+if [[ "$@" == "" ]]; then
+	help_func
+fi
