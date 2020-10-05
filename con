@@ -21,8 +21,11 @@ db() {
 dbIPv4() {
 	echo $str
 	str=$(echo $str | sed 's/\./ /g' -)
+	rec=1
 	for field in $str; do
-		echo "obase=2;$field" | bc
+		ans=$(echo "obase=2;$field" | bc)
+		echo "$rec) $ans"
+		rec=$(echo "$rec + 1" | bc)
 	done
 }
 
